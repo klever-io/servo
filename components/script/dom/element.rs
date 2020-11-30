@@ -3773,6 +3773,14 @@ pub fn set_cross_origin_attribute(element: &Element, value: Option<DOMString>) {
     }
 }
 
+pub fn reflect_referrer_policy_attribute(element: &Element) -> DOMString {
+    element
+        .get_attribute_by_name(DOMString::from_string(String::from("referrerpolicy")))
+        .and_then(|attr| determine_policy_for_token(&attr.Value()))
+        .map(|rp| DOMString::from_string(rp.to_string()))
+        .unwrap_or_else(DOMString::new)
+}
+
 pub(crate) fn referrer_policy_for_element(element: &Element) -> Option<ReferrerPolicy> {
     element
         .get_attribute_by_name(DOMString::from_string(String::from("referrerpolicy")))
